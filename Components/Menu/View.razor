@@ -1,0 +1,33 @@
+﻿@page "/viewmenu/{menuId}"
+@using Models
+@inject Repository.MenuRepository menuRep
+@if (menu != null)
+{
+    <div class="ms-Grid" dir="ltr">
+        <div class="ms-Grid-col ms-sm12">
+            <h2>@menu.Name</h2>
+            <p>@menu.Content</p>
+            <p>@menu.Price</p>
+        </div>
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    [Parameter]
+    public string MenuId { get; set; }
+
+    private Menu menu;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!string.IsNullOrEmpty(MenuId) && int.TryParse(MenuId, out int id))
+        {
+            menu = await menuRep.GetById(id);
+        }
+    }
+}
+

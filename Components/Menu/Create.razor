@@ -1,0 +1,38 @@
+﻿@page "/create-menu"
+@using PalateParadise.Models
+@inject Repository.MenuRepository menuRep
+
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<h3>Create Menu</h3>
+
+<div class="form-group">
+    <label for="name">Name:</label>
+    <input class="form-control" id="name" @bind="menu.Name" />
+</div>
+<div class="form-group">
+    <label for="content">Content:</label>
+    <input class="form-control" id="content" @bind="menu.Content" />
+</div>
+<div class="form-group">
+    <label for="price">Price:</label>
+    <input type="number" class="form-control" id="price" @bind="menu.Price" />
+</div>
+<button class="btn btn-primary" @onclick="AddMenu">Add Menu</button>
+
+@code {
+    Menu menu = new Menu();
+    
+
+    private async Task AddMenu()
+    {
+        menuRep.Add(menu);
+        Navigation.NavigateTo("/menus");
+    }
+
+    public void Dispose()
+    {
+      
+    }
+}

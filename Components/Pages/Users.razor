@@ -1,0 +1,49 @@
+﻿@page "/users"
+@attribute [StreamRendering]
+@using PalateParadise.Data
+@inject UserManager<ApplicationUser> UserManager
+
+<PageTitle>Users</PageTitle>
+
+<h1>Users</h1>
+
+<p>This component shows all users.</p>
+
+@if (users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Email</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ApplicationUser[]? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userList = UserManager.Users.ToList();
+        users = userList.ToArray();
+    }
+}
